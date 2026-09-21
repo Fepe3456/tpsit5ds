@@ -1,4 +1,7 @@
-package  esercizio1;
+package esercizio1;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Main {
 
@@ -10,9 +13,16 @@ public class Main {
         Thread t3 = new ContaVocali(parole.length/2, (parole.length/2 + parole.length/4));
         Thread t4 = new ContaVocali((parole.length/2 + parole.length/4), parole.length);
 
-        t1.start();
-        t2.start();
-        t3.start();
-        t4.start();
+        try {
+            t1.join();
+            t2.join();
+            t3.join();
+            t4.join();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        System.out.println("Totale: " + (t2.getTotale() + t1.getTotale() + t3.getTotale() + t4.getTotale()) );
+
     }
 }

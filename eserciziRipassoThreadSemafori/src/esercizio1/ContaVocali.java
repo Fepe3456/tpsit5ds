@@ -11,6 +11,10 @@ public class ContaVocali extends Thread {
         totale = 0;
     }
 
+    public int getTotale(){
+        return totale;
+    }
+
     public void run(){
         for(int i=inizio; i<fine; i++){
             for(int j=0; j<Main.parole[i].length(); j++){

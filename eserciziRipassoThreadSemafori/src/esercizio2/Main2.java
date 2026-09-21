@@ -1,22 +1,19 @@
 package esercizio2;
 
-import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Main {
+public class Main2 {
 
-    protected static int contoCondiviso = 0;
+    protected static int conto = 0;
 
     public static void main(String[] args) {
 
-        Semaphore s = new Semaphore(1);
-
-        Cassa c1 = new Cassa(s, 2000);
-        Cassa c2 = new Cassa(s, 2000);
-        Cassa c3 = new Cassa(s, 2000);
-        Cassa c4 = new Cassa(s, 2000);
-        Cassa c5 = new Cassa(s, 2000);
+        Cassa2 c1 = new Cassa2(2000);
+        Cassa2 c2 = new Cassa2(2000);
+        Cassa2 c3 = new Cassa2(2000);
+        Cassa2 c4 = new Cassa2(2000);
+        Cassa2 c5 = new Cassa2(2000);
 
         try {
             c1.start();
@@ -30,10 +27,14 @@ public class Main {
             c3.join();
             c4.join();
             c5.join();
+
+            conto += c1.getTotale() + c2.getTotale() + c3.getTotale() + c4.getTotale() + c5.getTotale();
+
+            System.out.println("Conto condiviso: " + conto);
+
         } catch (InterruptedException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        System.out.println("Conto condiviso: " + contoCondiviso);
     }
 }

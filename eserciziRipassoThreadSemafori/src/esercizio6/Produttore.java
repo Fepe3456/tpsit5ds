@@ -16,8 +16,8 @@ public class Produttore extends Thread {
             try {
                 Thread.sleep(50);
 
-                Main.semaphoreProduttore.acquire(); //Verifico se ci sono già 5 elementi o se ci sono posti liberi in cui aggiungere l'elemento
-                Main.mutex.acquire(); //per accedere al buffer
+                Main.mutex.acquire(); //Verifico se ci sono già 5 elementi o se ci sono posti liberi in cui aggiungere l'elemento
+                Main.semaphoreProduttore.acquire(); //per accedere al buffer
                 Main.buffer.add( number );
                 System.out.println("Prodotto elemento: " + number);
                 Main.mutex.release(); //libero il buffer

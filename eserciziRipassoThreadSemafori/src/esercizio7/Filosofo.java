@@ -25,9 +25,14 @@ public class Filosofo extends Thread {
             int sinistra = id;
             int destra = (id+1)%5;
 
-            //Prendere le forchette
-            Main.forchette[sinistra].acquire();
-            Main.forchette[destra].acquire();
+            if(id==4){
+                Main.forchette[destra].acquire();
+                Main.forchette[sinistra].acquire();
+            }
+            else{
+                Main.forchette[sinistra].acquire();
+                Main.forchette[destra].acquire();
+            }
 
             System.out.println("Filosofo" + id + " mangia");
 

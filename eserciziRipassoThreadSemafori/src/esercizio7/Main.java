@@ -30,3 +30,12 @@ public class Main {
 
     }
 }
+
+/*
+* Sarebbe da fare non 4 sì e 1 no, ma:
+*
+Se è l'ultimo filosofo (if id==4):
+    prima destra, poi sinistra
+Altrimenti:
+    prima sinistra, poi destra
+* */

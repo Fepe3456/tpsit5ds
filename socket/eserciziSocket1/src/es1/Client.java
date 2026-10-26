@@ -1,21 +1,18 @@
 package es1;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.Socket;
 
 public class Client {
 
-    private String nomeServer;
-    private int porta;
-    private Socket mio;
-    private BufferedReader tastiera;
+    private Socket mio_socket;
     private DataInputStream dalServer;
     private DataOutputStream versoServer;
-    private String messaggioClient;
+    private BufferedReader tastiera;
+    private int messaggioClient;
     private String messaggioServer;
+    private String nomeServer;
+    private int porta;
 
     Client(){
         nomeServer = "localhost";
@@ -24,36 +21,46 @@ public class Client {
 
     public void connetti(){
 
-        try{
+        try {
+
+            mio_socket = new Socket(nomeServer, porta);
+
+            System.out.println("Client connesso al server!");
+
+            dalServer = new DataInputStream( mio_socket.getInputStream() );
+            versoServer = new DataOutputStream( mio_socket.getOutputStream() );
 
             tastiera = new BufferedReader( new InputStreamReader(System.in) );
 
-            mio = new Socket(nomeServer, porta);
-
-            versoServer = new DataOutputStream( mio.getOutputStream() );
-            dalServer = new DataInputStream( mio.getInputStream() );
-
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
     }
 
     public void comunica(){
-        try{
 
-            System.out.println("Messaggio per il server: ");
-            messaggioClient = tastiera.readLine();
-            versoServer.writeBytes( messaggioClient + "\n" );
+        try {
 
-            messaggioServer = dalServer.readLine();
-            System.out.println("Risposta: " + messaggioServer);
+            for(int i=0; i<10; i++){
+                System.out.println("Inserisci il " + (i+1) + "° numero: ");
 
-            mio.close();
+                //messaggioClient = tastiera.read();
+                messaggioClient = Integer.parseInt(tastiera.readLine());
 
-        }catch (Exception e){
-            System.out.println( e.getMessage() );
+                versoServer.writeInt( messaggioClient );
+                System.out.println("Inviato al server il numero " + messaggioClient);
+            }
+
+            messaggioServer = dalServer.readUTF();
+            System.out.println("Risposta del server: " + messaggioServer);
+
+            mio_socket.close();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+
     }
 
 }

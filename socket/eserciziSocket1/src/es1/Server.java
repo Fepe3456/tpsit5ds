@@ -11,7 +11,7 @@ public class Server {
     private Socket client;
     private DataOutputStream versoClient;
     private DataInputStream dalClient;
-    private String messaggioClient;
+    private int messaggioClient;
     private String messaggioServer;
 
     public void attendi(){
@@ -38,11 +38,16 @@ public class Server {
 
         try {
 
-            messaggioClient = dalClient.readLine();
+            int somma = 0;
 
-            messaggioServer = messaggioClient.toUpperCase();
+            for(int i=0; i<10; i++){
+                messaggioClient = dalClient.readInt();
+                System.out.println("Il server ha ricevuto il " + (i+1) + "° numero = " + messaggioClient);
+                somma += messaggioClient;
+            }
 
-            versoClient.writeBytes(messaggioServer + "\n");
+            messaggioServer = "La media dei numeri è " + (somma/10);
+            versoClient.writeUTF( messaggioServer );
 
             System.out.println("Chiusura connessione server ...");
 
